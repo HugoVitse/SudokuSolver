@@ -5,12 +5,12 @@ project(SudokuSolver)
 set(CMAKE_CXX_STANDARD 14)
 
 # Ajouter le répertoire des fichiers d'en-tête
-#include_directories(include)
+include_directories(include)
 
 # Ajouter les fichiers source
 add_executable(SudokuSolver main.cpp)
-#add_subdirectory(src)
-#target_link_libraries(MD5 md5)
+add_subdirectory(src)
+target_link_libraries(SudokuSolver sudokuSrc)
 
 # Activer les tests
 #enable_testing()
