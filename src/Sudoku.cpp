@@ -129,12 +129,14 @@ Col** Sudoku::getCols() {
 }
 
 void Sudoku::solve() {
-    do {
-        for(int i=0; i < Sudoku::NB_CASES; i+=1) {
-            this->getCases()[i]->setCandidats();
-        }
+    for(int i=0; i < Sudoku::NB_CASES; i+=1) {
+        std::cout << "case" << i << " ";
+        this->getCases()[i]->setCandidats();
     }
-    while (this->makeSingles());
+    do {
+        
+    }
+    while (this->makeAllTechniques());
  
 }
 
@@ -148,10 +150,87 @@ bool Sudoku::makeSingles(){
     return isChange;
 }
 
+    
+bool Sudoku::makeHiddenSingles() {
+    bool isChange = false;
+    for(int i=0; i < Sudoku::NB_CASES; i+=1) {
+        if(this->getCases()[i]->HiddenSingle()) {
+            isChange = true;
+        }
+    }
+    return isChange;
+}
+
+bool Sudoku::makeSegment1(){
+    bool isChange = false;
+    for(int i=0; i < Sudoku::NB_GROUPS_IND; i+=1) {
+        std::cout << "square " << i << " " ;
+        if(this->getSquares()[i]->Segment1()) {
+            isChange = true;
+        }
+    }
+    return isChange;
+}
+
+bool Sudoku::makeSegment2(){
+    bool isChange = false;
+    for(int i=0; i < Sudoku::NB_GROUPS_IND; i+=1) {
+        if(this->getRows()[i]->Segment2() || this->getCols()[i]->Segment2()) {
+            std::cout << "bingo " << i << std::endl;
+            isChange = true;
+        }
+    }
+    return isChange;
+}
+
+
+bool Sudoku::makeAllTechniques(){
+      this->printC(); 
+         std::cout << std::endl;
+    
+    this->makeSegment1();
+    this->makeSegment2();
+      this->printC(); 
+    bool isSingles = this->makeSingles();
+       std::cout << std::endl;
+    
+    this->print();
+        std::cout << std::endl;
+    
+    this->printC();
+    bool isHiddenSingles = this->makeHiddenSingles();
+       std::cout << std::endl;
+    this->print();
+        std::cout << std::endl;
+    
+    this->printC();
+
+  
+ 
+
+    return isSingles || isHiddenSingles;
+}
+
 void Sudoku::print() {
     for(int i=0; i < 81; i++) {
-         if(i%9 == 0) std::cout << std::endl;
-        std::cout << std::dec << +*this->cases[i]->getValue();
+        if(i%9 == 0) std::cout << std::endl << std::endl;
+        std::cout << std::dec << +*this->cases[i]->getValue() << "   ";
+       
+    }
+}
+
+void Sudoku::printC() {
+    for(int i=0; i < 81; i++) {
+        if(i%9 == 0) std::cout << std::endl;
+        if(this->cases[i]->nbcandidats == 0) std::cout << std::setw(4) << std::setfill('0') << 0 << " ";
+        else {
+            std::stringstream ss;
+        for(auto i : this->cases[i]->getCandidats()){
+            ss << std::dec  << +i;
+        }   
+
+        std::cout << std::setw(4) << std::setfill('0') << ss.str() << " ";}
+       
        
     }
 }

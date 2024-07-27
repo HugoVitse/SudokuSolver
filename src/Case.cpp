@@ -1,20 +1,19 @@
 #include "../include/SudokuSolver.hpp"
 
-bool isIn(std::set<char> NearValues, char i ){
-    for(auto ind : NearValues){
-        if(ind == i) return true;
-    }
-    return false;
-}
 
 Case::Case() {}
 
 Case::Case(char* value) {   
     this->value = value;
+    this->nbcandidats = 0;
 }
 
 char* Case::getValue() {
     return this->value;
+}
+
+std::set<char> Case::getCandidats() {
+    return this->candidats;
 }
 
 void Case::setSegmentVertical(SegmentVertical* segment){
@@ -59,15 +58,20 @@ void Case::setCandidats() {
             NearValues.insert(*SquareValues[i]);
         }
 
+    
+
 
         int count = 0;
         for(char i = 1; i <= 9; i+=1){
             if(!isIn(NearValues, i)){
+                std::cout << +i << " ";
                 this->candidats.insert(i);
                 count+=1;
             }
         }
         this->nbcandidats = count;
+
+        std::cout << this->nbcandidats << std::endl;
 
 
     }
@@ -78,12 +82,24 @@ void Case::setCandidats() {
 
 }
 
+void Case::removeCandidats(char candidat) {
+    this->candidats.erase(candidat);
+    this->nbcandidats = this->candidats.size();
+    std::cout << this->nbcandidats << " " << +candidat << std::endl ;
+}
+
 void Case::setValue(char value){
     *this->value = value;
+    this->nbcandidats = 0;
+    for(int i =0; i < Row::NB_SEGMENTS; i+=1){
+        this->getHorizontalSegment()->getRow()->getSegments()[i]->removeCandidats(this, value);
+        this->getVerticalSegment()->getCol()->getSegments()[i]->removeCandidats(this, value);
+        this->getHorizontalSegment()->getSquare()->getHorizontalSegments()[i]->removeCandidats(this, value);
+    }
+
 }
 
 bool Case::Single() {
-    std::cout << this->nbcandidats << std::endl;
     if(this->nbcandidats == 1) {
         this->setValue(*this->candidats.begin());
         this->nbcandidats = 0;
@@ -92,5 +108,41 @@ bool Case::Single() {
     else {
         return false;
     }
+
+}
+
+bool Case::HiddenSingle() {
+
+    if(this->nbcandidats > 0) {
+
+        
+
+        std::set<char> AllCandidats;
+
+        std::set<char> RowCandidats = this->getHorizontalSegment()->getRow()->getGroupCandidats(this);
+        std::set<char> ColCandidats = this->getVerticalSegment()->getCol()->getGroupCandidats(this);
+        std::set<char> SquareCandidats = this->getHorizontalSegment()->getSquare()->getGroupCandidats(this );
+
+        AllCandidats.insert(RowCandidats.begin(),RowCandidats.end());
+        AllCandidats.insert(ColCandidats.begin(),ColCandidats.end());
+        AllCandidats.insert(SquareCandidats.begin(),SquareCandidats.end());
+
+     
+        for(auto i: this->candidats) {
+            std::cout << std::endl << +i << " ";
+            if(!isIn(AllCandidats,i)){
+                std::cout << "hiden " << +i << " " ;
+                std::cout << std::endl;
+                this->setValue(i);
+                return true;
+            }
+        }
+    
+
+        return false;
+
+    }
+    return false;
+
 
 }
