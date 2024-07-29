@@ -44,7 +44,7 @@ void Row::removeCandidat(SegmentHorizontal* avoid, char candidat) {
     SegmentHorizontal** segments = this->getSegments();
     for(int i = 0 ; i < Row::NB_SEGMENTS; i+=1) {
         if(segments[i] != avoid) {
-            std::cout << "Row " << i << " " << +candidat << std::endl;
+            //std::cout << "Row " << i << " " << +candidat << std::endl;
             segments[i]->removeCandidats(candidat);
         }
     }

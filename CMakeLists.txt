@@ -12,6 +12,7 @@ add_executable(SudokuSolver main.cpp)
 add_subdirectory(src)
 target_link_libraries(SudokuSolver sudokuSrc)
 
+
 # Activer les tests
 #enable_testing()
 

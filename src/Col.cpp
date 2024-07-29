@@ -28,7 +28,7 @@ void Col::removeCandidat(SegmentVertical* avoid, char candidat) {
     SegmentVertical** segments = this->getSegments();
     for(int i = 0 ; i < Col::NB_SEGMENTS; i+=1) {
         if(segments[i] != avoid) {
-            std::cout << "Col " << i << " " << +candidat << std::endl;
+            //std::cout << "Col " << i << " " << +candidat << std::endl;
             segments[i]->removeCandidats(candidat);
         }
     }

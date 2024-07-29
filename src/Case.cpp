@@ -64,14 +64,14 @@ void Case::setCandidats() {
         int count = 0;
         for(char i = 1; i <= 9; i+=1){
             if(!isIn(NearValues, i)){
-                std::cout << +i << " ";
+                //std::cout << +i << " ";
                 this->candidats.insert(i);
                 count+=1;
             }
         }
         this->nbcandidats = count;
 
-        std::cout << this->nbcandidats << std::endl;
+        //std::cout << this->nbcandidats << std::endl;
 
 
     }
@@ -85,7 +85,7 @@ void Case::setCandidats() {
 void Case::removeCandidats(char candidat) {
     this->candidats.erase(candidat);
     this->nbcandidats = this->candidats.size();
-    std::cout << this->nbcandidats << " " << +candidat << std::endl ;
+    //std::cout << this->nbcandidats << " " << +candidat << std::endl ;
 }
 
 void Case::setValue(char value){
@@ -129,10 +129,10 @@ bool Case::HiddenSingle() {
 
      
         for(auto i: this->candidats) {
-            std::cout << std::endl << +i << " ";
+            //std::cout << std::endl << +i << " ";
             if(!isIn(AllCandidats,i)){
-                std::cout << "hiden " << +i << " " ;
-                std::cout << std::endl;
+                //std::cout << "hiden " << +i << " " ;
+                //std::cout << std::endl;
                 this->setValue(i);
                 return true;
             }
