@@ -14,6 +14,6 @@ int main(int argc, char* argv[]) {
 
     test->solve();
     test->print();
-    //test->printC();
-
+    test->printC();
+    std::cout << std::endl << binomial(1,2) << std::endl;
 }   

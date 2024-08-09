@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+    "name": "SudokuSolver",
+    "version": "1.0",
+    "description": "Extension to access the DOM of the current page",
+    "permissions": [
+      "activeTab",
+      "webRequest"
+    ],
+    "browser_action": {
+      "default_popup": "solve.html",
+      "default_icon": {
+        "48": "icons/icon.png"
+      }
+    },
+    "background": {
+      "scripts": ["background.js"]
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content_script.js"]
+      }
+    ]
+  }
+  

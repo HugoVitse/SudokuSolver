@@ -50,6 +50,10 @@ void Row::removeCandidat(SegmentHorizontal* avoid, char candidat) {
     }
 }
 
+bool Row::NakedSets(int size) {
+    return true;
+}
+
 bool Row::Segment2(){
     bool isChanged = false;
 

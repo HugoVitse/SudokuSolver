@@ -129,13 +129,17 @@ Col** Sudoku::getCols() {
 }
 
 void Sudoku::solve() {
+
     for(int i=0; i < Sudoku::NB_CASES; i+=1) {
         this->getCases()[i]->setCandidats();
     }
+    this->printC();
     do {
         
     }
     while (this->makeAllTechniques());
+
+    this->makeAllTechniques();
  
 }
 
@@ -144,6 +148,8 @@ bool Sudoku::makeSingles(){
     for(int i=0; i < Sudoku::NB_CASES; i+=1) {
         if(this->getCases()[i]->Single()) {
             isChange = true;
+            std::cout << "i ; " << i << std::endl;
+
         }
     }
     return isChange;
@@ -154,6 +160,7 @@ bool Sudoku::makeHiddenSingles() {
     bool isChange = false;
     for(int i=0; i < Sudoku::NB_CASES; i+=1) {
         if(this->getCases()[i]->HiddenSingle()) {
+            std::cout << "ihidden ; " << i << std::endl;
             isChange = true;
         }
     }
@@ -180,28 +187,33 @@ bool Sudoku::makeSegment2(){
     return isChange;
 }
 
+bool Sudoku::makeNakedSets() {
+    bool isChange = false;
+    for(int i=0; i < Sudoku::NB_GROUPS_IND; i+=1) {
+        std::cout << "col " << i << std::endl;
+        if(this->getCols()[i]->NakedSets(2)) {
+            isChange = true;
+        }
+    }
+    return isChange;
+}
 
 bool Sudoku::makeAllTechniques(){
        
 
-    
     this->makeSegment1();
     this->makeSegment2();
-       
+    this->makeNakedSets();
     bool isSingles = this->makeSingles();
-
-    
-    
     bool isHiddenSingles = this->makeHiddenSingles();
 
+    this->printC();
+    std::cout << std::endl;
+    this->print();
 
-        
-    
-    
+    std::cout << std::endl;
 
-  
- 
-
+    std::cout << (isSingles?"true":"false") << " " << (isHiddenSingles?"true":"false") << std::endl;
     return isSingles || isHiddenSingles;
 }
 

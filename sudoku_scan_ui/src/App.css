@@ -1,0 +1,92 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.qr-code-scanner-container {
+  position: relative;
+}
+
+.qr-code-video {
+  width: 100%;
+  max-width: 100%; /* Pour s'assurer que la vidéo ne dépasse pas la largeur de l'écran */
+  height: auto;
+}
+
+.qr-code-overlay {
+  position: absolute;
+  top: 25%;
+  left: 37.5%;
+  width: 25%;
+  height: 46%;
+  max-width: 50%;
+  max-height: 50%;
+  border: 2.5px solid white;
+  border-radius: 20px; /* Ajustez la valeur pour obtenir des coins plus ou moins arrondis */
+  pointer-events: none;
+  animation: pulse 1.75s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Styles spécifiques pour les petits écrans */
+@media only screen and (max-width: 600px) {
+  .qr-code-overlay {
+    top: 30%;
+    left: 26%;
+    width: 80%;
+    height: 30%;
+    border-radius: 10px;
+  }
+  .qr-code-video {
+      width: 100%;
+      max-width: 100%; /* Pour s'assurer que la vidéo ne dépasse pas la largeur de l'écran */
+      height: auto; 
+      
+    }
+}

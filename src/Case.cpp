@@ -82,9 +82,29 @@ void Case::setCandidats() {
 
 }
 
+
+
+
+ bool Case::isANakedSet(std::set<char> set) {
+    if(this->nbcandidats == 0) return false;
+    bool isNSET = true;
+    for(auto k : this->getCandidats()) {
+        if(set.find(k) == set.end()){
+            isNSET = false;
+            break;
+        }
+    }
+    return isNSET;
+ }
+
 void Case::removeCandidats(char candidat) {
     this->candidats.erase(candidat);
-    this->nbcandidats = this->candidats.size();
+    if(this->value != 0){
+        this->nbcandidats = this->candidats.size();
+    }
+    else {
+        this->nbcandidats = 0;
+    }
     //std::cout << this->nbcandidats << " " << +candidat << std::endl ;
 }
 
@@ -100,7 +120,7 @@ void Case::setValue(char value){
 }
 
 bool Case::Single() {
-    if(this->nbcandidats == 1) {
+    if(this->nbcandidats == 1 && *this->getValue() == 0) {
         this->setValue(*this->candidats.begin());
         this->nbcandidats = 0;
         return true;
@@ -112,25 +132,20 @@ bool Case::Single() {
 }
 
 bool Case::HiddenSingle() {
-
-    if(this->nbcandidats > 0) {
+    std::cout << " tg " << +*this->getValue();
+    if(this->nbcandidats > 0 && *this->getValue() == 0) {
 
         
-
-        std::set<char> AllCandidats;
-
         std::set<char> RowCandidats = this->getHorizontalSegment()->getRow()->getGroupCandidats(this);
         std::set<char> ColCandidats = this->getVerticalSegment()->getCol()->getGroupCandidats(this);
         std::set<char> SquareCandidats = this->getHorizontalSegment()->getSquare()->getGroupCandidats(this );
 
-        AllCandidats.insert(RowCandidats.begin(),RowCandidats.end());
-        AllCandidats.insert(ColCandidats.begin(),ColCandidats.end());
-        AllCandidats.insert(SquareCandidats.begin(),SquareCandidats.end());
+        std::cout << "hiddentest";
+        printSet(RowCandidats);
 
-     
         for(auto i: this->candidats) {
             //std::cout << std::endl << +i << " ";
-            if(!isIn(AllCandidats,i)){
+            if(!isIn(RowCandidats,i) || !isIn(ColCandidats,i) || !isIn(SquareCandidats,i) ){
                 //std::cout << "hiden " << +i << " " ;
                 //std::cout << std::endl;
                 this->setValue(i);

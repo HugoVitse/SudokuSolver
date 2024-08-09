@@ -61,6 +61,9 @@ void Square::removeCandidat(SegmentVertical* avoid, char candidat) {
     }
 }
 
+bool Square::NakedSets(int size) {
+    return true;
+}
 
 bool Square::Segment1() {
 

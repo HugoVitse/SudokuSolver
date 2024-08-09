@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <set>
 #include <iomanip>
+#include <math.h>
 
 #pragma once
 
@@ -35,6 +36,7 @@ public:
     bool makeHiddenSingles();
     bool makeSegment1();
     bool makeSegment2();
+    bool makeNakedSets();
     bool makeAllTechniques();
 
     void solve();
@@ -66,6 +68,7 @@ public:
     Case(char* value); int nbcandidats;
 
     char* getValue();
+    bool isANakedSet(std::set<char> set);
     SegmentVertical* getVerticalSegment();
     SegmentHorizontal* getHorizontalSegment();
     std::set<char> getCandidats();
@@ -147,6 +150,7 @@ public:
     Group();
     virtual std::vector<char*> getGroupValues() = 0;
     virtual std::set<char> getGroupCandidats(Case* avoid) = 0;
+    virtual bool NakedSets(int size) = 0;
     static const int NB_CASES = 9;
    
 
@@ -164,6 +168,7 @@ public:
     SegmentHorizontal** getSegments();
     void removeCandidat(SegmentHorizontal* avoid, char candidat);
     bool Segment2();
+    bool NakedSets(int size);
     static const int NB_SEGMENTS = 3;
 
 private:
@@ -182,7 +187,9 @@ public:
     std::set<char> getGroupCandidats(Case* avoid) override;
     SegmentVertical** getSegments();
     void removeCandidat(SegmentVertical* avoid, char candidat);
+    bool removeCandidat(Case** avoid, int nbtoAvoid, char candidat);
     bool Segment2();
+    bool NakedSets(int size);
     static const int NB_SEGMENTS = 3;
 
 private:
@@ -205,6 +212,7 @@ public:
     void removeCandidat(SegmentHorizontal* avoid, char candidat);
     void removeCandidat(SegmentVertical* avoid, char candidat);
     bool Segment1();
+    bool NakedSets(int size);
         
     static const int NB_SEGMENTS = 6;
 
@@ -217,3 +225,5 @@ private:
 };
 
 bool isIn(std::set<char> NearValues, char i );
+int binomial(int p, int n);
+void printSet(std::set<char> set);
